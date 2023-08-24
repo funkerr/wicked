@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace ArcadeVP
 {
-    public class ArcadeVehicleController : MonoBehaviour
+    public class ArcadeVehicleController : NetworkBehaviour
     {
         public enum groundCheck { rayCast, sphereCaste };
         public enum MovementMode { Velocity, AngularVelocity };
@@ -61,6 +62,8 @@ namespace ArcadeVP
         }
         private void Update()
         {
+            if (!IsOwner) return;
+
             horizontalInput = Input.GetAxis("Horizontal"); //turning input
             verticalInput = Input.GetAxis("Vertical");     //accelaration input
             Visuals();
@@ -83,6 +86,8 @@ namespace ArcadeVP
 
         void FixedUpdate()
         {
+            if (!IsOwner) return;
+
             carVelocity = carBody.transform.InverseTransformDirection(carBody.velocity);
 
             if (Mathf.Abs(carVelocity.x) > 0)

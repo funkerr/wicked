@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace ArcadeVP
 {
-    public class SkidMarks : MonoBehaviour
+    public class SkidMarks : NetworkBehaviour
     {
         private TrailRenderer skidMark;
         private ParticleSystem smoke;
@@ -32,6 +33,7 @@ namespace ArcadeVP
         // Update is called once per frame
         void FixedUpdate()
         {
+            if (!IsOwner) return;
             if (carController.grounded())
             {
 
